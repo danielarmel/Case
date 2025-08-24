@@ -6,7 +6,7 @@ with base as (
     select * from {{ source('bronze', 'dog_api_raw') }}
 ),
 
--- test
+
 renamed as (
     select
         id as ID,
