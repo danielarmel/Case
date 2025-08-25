@@ -43,6 +43,6 @@ load_info = pipeline.run(
     table_name="dog_api_raw",
     write_disposition="append"
 )
-
+#test
 print(f"✅ Loaded to BigQuery: {load_info}")
 # test
