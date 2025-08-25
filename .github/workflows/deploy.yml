@@ -1,0 +1,67 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dbt
+      run: |
+        pip install dbt-bigquery
+        
+    - name: Set up Google Cloud credentials
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+        
+    - name: Deploy ingestion job
+      run: |
+        cd pyne-dog-breeds/ingestion
+        # Deploy extract_dogs.py to Cloud Functions
+        gcloud functions deploy dog-breeds-extraction \
+          --runtime python39 \
+          --trigger-http \
+          --allow-unauthenticated \
+          --entry-point extract_dogs \
+          --source . \
+          --region europe-west1 \
+          --memory 2GB \
+          --timeout 540s
+        
+    - name: Create dbt profiles
+      run: |
+        mkdir -p ~/.dbt
+        cat > ~/.dbt/profiles.yml << EOF
+        dog_breeds:
+          target: prod
+          outputs:
+            prod:
+              type: bigquery
+              method: service-account
+              project: pyne-dog-breeds
+              dataset: prod
+              keyfile: /tmp/gcp_key.json
+              location: EU
+              threads: 1
+        EOF
+        
+    - name: Copy GCP credentials
+      run: |
+        echo '${{ secrets.GCP_CREDENTIALS }}' > /tmp/gcp_key.json
+        
+    - name: Run dbt in production
+      run: |
+        cd pyne-dog-breeds/dbt/dog_breeds
+        dbt run --target prod
