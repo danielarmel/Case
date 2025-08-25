@@ -100,7 +100,7 @@ temperament_dim as (
 
 joined as (
     select distinct
-        coalesce(d.SK_Breed, '-1') as SK_Breed,
+        coalesce(d.SK_Breed, -1) as SK_Breed,
         p.MinLifeSpan,
         p.MaxLifeSpan,
         p.MinWeightKg,

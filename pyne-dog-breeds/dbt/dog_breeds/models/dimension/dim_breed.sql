@@ -85,8 +85,8 @@ with_unknown as (
     union all
     
     select
-        '-1' as SK_Breed,
-        'Unknown' as ID,
+        -1 as SK_Breed,
+        -1 as ID,
         'Unknown' as Breed,
         'Unknown' as BreedGroup,
         'Unknown' as AttributeType,
