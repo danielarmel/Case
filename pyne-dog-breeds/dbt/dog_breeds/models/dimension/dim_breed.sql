@@ -69,14 +69,28 @@ all_attributes as (
     select * from temperament_unpivot
     union all
     select * from origin_unpivot
+),
+
+-- Add unknown row
+with_unknown as (
+    select
+        row_number() over (order by Breed, AttributeType, AttributeValue) as SK_Breed,
+        ID,
+        Breed,
+        BreedGroup,
+        AttributeType,
+        AttributeValue
+    from all_attributes
+    
+    union all
+    
+    select
+        '-1' as SK_Breed,
+        'Unknown' as ID,
+        'Unknown' as Breed,
+        'Unknown' as BreedGroup,
+        'Unknown' as AttributeType,
+        'Unknown' as AttributeValue
 )
 
-select
-    row_number() over (order by Breed, AttributeType, AttributeValue) as SK_Breed,
-    ID,
-    Breed,
-    BreedGroup,
-    AttributeType,
-    AttributeValue
-from all_attributes
-order by ID, AttributeType, AttributeValue
+select * from with_unknown
