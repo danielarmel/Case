@@ -15,7 +15,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.9'
+        python-version: '3.11'
         
     - name: Install dbt
       run: |
@@ -26,15 +26,21 @@ jobs:
       with:
         credentials_json: ${{ secrets.GCP_CREDENTIALS }}
         
+    - name: Enable required APIs
+      run: |
+        gcloud services enable cloudresourcemanager.googleapis.com
+        gcloud services enable cloudfunctions.googleapis.com
+        gcloud services enable cloudbuild.googleapis.com
+        
     - name: Deploy ingestion job
       run: |
         cd pyne-dog-breeds/ingestion
-        # Deploy extract_dogs.py to Cloud Functions
+        # Deploy main.py to Cloud Functions
         gcloud functions deploy dog-breeds-extraction \
-          --runtime python39 \
+          --runtime python311 \
           --trigger-http \
           --allow-unauthenticated \
-          --entry-point extract_dogs \
+          --entry-point main \
           --source . \
           --region europe-west1 \
           --memory 2GB \
