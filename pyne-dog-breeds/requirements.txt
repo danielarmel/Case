@@ -1,3 +1,0 @@
-dbt-bigquery
-google-cloud-bigquery
-google-cloud-storage
