@@ -67,6 +67,17 @@ jobs:
       run: |
         echo '${{ secrets.GCP_CREDENTIALS }}' > /tmp/gcp_key.json
         
+    - name: Install ingestion dependencies
+      run: |
+        cd pyne-dog-breeds/ingestion
+        pip install -r requirements.txt
+        pip install dlt[bigquery] requests
+        
+    - name: Run ingestion pipeline
+      run: |
+        cd pyne-dog-breeds/ingestion
+        python main.py
+        
     - name: Install dbt dependencies
       run: |
         cd pyne-dog-breeds/dbt/dog_breeds
