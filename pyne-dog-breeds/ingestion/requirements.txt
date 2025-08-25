@@ -1,1 +1,4 @@
 functions-framework==3.*
+dlt[bigquery]
+requests
+google-cloud-bigquery-storage

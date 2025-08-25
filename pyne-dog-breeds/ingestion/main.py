@@ -30,7 +30,11 @@ def dog_breeds():
 pipeline = dlt.pipeline(
     pipeline_name="dog_breeds_pipeline",
     destination="bigquery",
-    dataset_name="bronze"
+    dataset_name="bronze",
+    destination_options={
+        "location": "EU",
+        "project": "pyne-dog-breeds"
+    }
 )
 
 # 3. Run the pipeline
