@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: bronze
+    database: pyne-dog-breeds
+    schema: bronze
+    tables:
+      - name: dog_api_raw
