@@ -41,3 +41,4 @@ load_info = pipeline.run(
 )
 
 print(f"✅ Loaded to BigQuery: {load_info}")
+# test
