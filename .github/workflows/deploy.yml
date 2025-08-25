@@ -28,7 +28,7 @@ jobs:
         
     - name: Deploy ingestion job
       run: |
-        cd pyne-dog-breeds/ingestion
+        cd pyne-dog-breeds/ingestion/src
         # Deploy extract_dogs.py to Cloud Functions
         gcloud functions deploy dog-breeds-extraction \
           --runtime python39 \
