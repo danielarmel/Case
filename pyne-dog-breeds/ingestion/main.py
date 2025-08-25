@@ -1,4 +1,4 @@
-from ingestion.extract_dogs import extract_dogs
+from extract_dogs import extract_dogs
 
 # Cloud Functions entry point
 def main(request):
