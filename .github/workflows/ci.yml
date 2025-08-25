@@ -15,7 +15,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.9'
+        python-version: '3.10'
         
     - name: Install dbt
       run: |
@@ -28,10 +28,10 @@ jobs:
         
     - name: Run dbt tests (dev)
       run: |
-        cd dbt/dog_breeds
+        cd pyne-dog-breeds/dbt/dog_breeds
         dbt test --target dev
         
     - name: Run dbt run (dev)
       run: |
-        cd dbt/dog_breeds
+        cd pyne-dog-breeds/dbt/dog_breeds
         dbt run --target dev
