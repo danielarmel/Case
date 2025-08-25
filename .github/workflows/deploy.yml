@@ -26,25 +26,25 @@ jobs:
       with:
         credentials_json: ${{ secrets.GCP_CREDENTIALS }}
         
-    - name: Enable required APIs
-      run: |
-        gcloud services enable cloudresourcemanager.googleapis.com
-        gcloud services enable cloudfunctions.googleapis.com
-        gcloud services enable cloudbuild.googleapis.com
+    # - name: Enable required APIs
+    #   run: |
+    #     gcloud services enable cloudresourcemanager.googleapis.com
+    #     gcloud services enable cloudfunctions.googleapis.com
+    #     gcloud services enable cloudbuild.googleapis.com
         
-    - name: Deploy ingestion job
-      run: |
-        cd pyne-dog-breeds/ingestion
-        # Deploy main.py to Cloud Functions
-        gcloud functions deploy dog-breeds-extraction \
-          --runtime python311 \
-          --trigger-http \
-          --allow-unauthenticated \
-          --entry-point main \
-          --source . \
-          --region europe-west1 \
-          --memory 2GB \
-          --timeout 540s
+    # - name: Deploy ingestion job
+    #   run: |
+    #     cd pyne-dog-breeds/ingestion
+    #     # Deploy main.py to Cloud Functions
+    #     gcloud functions deploy dog-breeds-extraction \
+    #       --runtime python311 \
+    #       --trigger-http \
+    #       --allow-unauthenticated \
+    #       --entry-point main \
+    #       --source . \
+    #       --region europe-west1 \
+    #       --memory 2GB \
+    #       --timeout 540s
         
     - name: Create dbt profiles
       run: |
