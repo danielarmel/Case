@@ -17,14 +17,9 @@ jobs:
       with:
         python-version: '3.11'
         
-    - name: Install dbt and BigQuery tools
+    - name: Install dbt
       run: |
         pip install dbt-bigquery
-        pip install google-cloud-bigquery-storage
-        
-    - name: Install BigQuery CLI
-      run: |
-        gcloud components install bq --quiet
         
     - name: Set up Google Cloud credentials
       uses: google-github-actions/auth@v2
@@ -71,24 +66,7 @@ jobs:
     - name: Copy GCP credentials
       run: |
         echo '${{ secrets.GCP_CREDENTIALS }}' > /tmp/gcp_key.json
-        
-    - name: Install ingestion dependencies
-      run: |
-        cd pyne-dog-breeds/ingestion
-        pip install -r requirements.txt
-        pip install dlt[bigquery] requests google-cloud-bigquery-storage
-        
-    - name: Create BigQuery dataset
-      run: |
-        bq mk --location=EU --project_id=pyne-dog-breeds pyne-dog-breeds:bronze || echo "Dataset already exists"
-        
-    - name: Run ingestion pipeline
-      env:
-        GOOGLE_CLOUD_PROJECT: pyne-dog-breeds
-        BIGQUERY_LOCATION: EU
-      run: |
-        cd pyne-dog-breeds/ingestion
-        python main.py
+      
         
     - name: Install dbt dependencies
       run: |
