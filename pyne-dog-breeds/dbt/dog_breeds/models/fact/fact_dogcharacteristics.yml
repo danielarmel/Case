@@ -42,3 +42,18 @@ models:
         description: "Maximum height in centimeters"
         tests:
           - not_null
+
+      - name: AverageLifeSpan
+        description: "Average predicted lifespan in years (calculated from min and max)"
+        tests:
+          - not_null
+
+      - name: AverageWeight
+        description: "Average weight in kilograms (calculated from min and max)"
+        tests:
+          - not_null
+
+      - name: AverageHeight
+        description: "Average height in centimeters (calculated from min and max)"
+        tests:
+          - not_null

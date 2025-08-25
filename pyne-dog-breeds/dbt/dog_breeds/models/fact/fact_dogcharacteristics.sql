@@ -112,6 +112,16 @@ joined as (
     left join origin_dim o on p.Breed = o.Breed 
     left join temperament_dim t on p.Breed = t.Breed 
     left join {{ ref('dim_breed') }} d on p.Breed = d.Breed
+),
+
+final as (
+    select 
+        *,
+        -- Calculate averages
+        (MinLifeSpan + MaxLifeSpan) / 2.0 as AverageLifeSpan,
+        (MinWeightKg + MaxWeightKg) / 2.0 as AverageWeight,
+        (MinHeightCm + MaxHeightCm) / 2.0 as AverageHeight
+    from joined
 )
---test2
-select * from joined
+
+select * from final
