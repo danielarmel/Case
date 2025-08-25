@@ -47,6 +47,11 @@ jobs:
       run: |
         echo '${{ secrets.GCP_CREDENTIALS }}' > /tmp/gcp_key.json
         
+    - name: Install dbt dependencies
+      run: |
+        cd pyne-dog-breeds/dbt/dog_breeds
+        dbt deps
+        
     - name: Run dbt tests (dev)
       run: |
         cd pyne-dog-breeds/dbt/dog_breeds
